@@ -214,12 +214,3 @@ To test the API endpoints using Postman, import the following collection into Po
 2. **Test the registration and login** using the endpoints listed above with **Postman** or **Curl**.
 3. **First-time login** will return `access_token`, `refresh_token`, and `session_key`.
 4. **Subsequent logins** will prompt the user to use the "Continue Login" API, showing an error and asking for session refresh.
-
----
-
-### Improvements:
-1. **Clear API Responses**: Error messages and responses are now more explicit, especially regarding common user login issues (e.g., invalid credentials, user already logged in).
-2. **Images & Screenshots**: Enhanced with images to show both success and error screens to improve the user's understanding of what to expect.
-3. **Clearer Structure**: Improved organization for easy navigation between sections (Installation, API Endpoints, Testing).
-
-This should now give a much clearer, more organized overview of your project, improving readability and user understanding.
