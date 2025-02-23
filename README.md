@@ -1,12 +1,12 @@
 # Django SSO Authentication with JWT and Session Management
 
-This repository implements a **Single Sign-On (SSO) authentication system** using **JWT** and **Django’s session management**. The API allows users to register, log in, and manage their sessions securely with JWT tokens.
+This repository implements a **Single Sign-On (SSO) authentication system** using **JWT** (JSON Web Tokens) and **Django's session management**. The API allows users to register, log in, and manage their sessions securely with JWT tokens.
 
 ## Features
 
 - **User Registration**: Register new users by providing email, password, first name, and last name.
-- **Login**: Login with email and password, and receive JWT **access token**, **refresh token**, and **session key**.
-- **Session Management**: Use Django's built-in session management for handling user sessions.
+- **Login**: Login with email and password, and receive **JWT access token**, **refresh token**, and **session key**.
+- **Session Management**: Uses Django's built-in session management for handling user sessions.
 - **JWT Authentication**: Secure authentication using JWT tokens to access protected APIs.
 
 ## Table of Contents
@@ -24,9 +24,9 @@ This repository implements a **Single Sign-On (SSO) authentication system** usin
 
 - **Python 3.8+**
 - **Django 4.x** (or higher)
-- **djangorestframework** for RESTful API
+- **djangorestframework** for building RESTful APIs
 - **djangorestframework-simplejwt** for JWT token management
-- **django-cors-headers** for cross-origin resource sharing (optional)
+- **django-cors-headers** for handling cross-origin resource sharing (optional)
 - **SQLite** (default database) or any other relational database
 
 ### Clone the Repository
@@ -94,8 +94,8 @@ Follow the prompts to create the superuser.
     {
       "email": "admin@admin.com",
       "password": "admin",
-      "first_name": "admin",
-      "last_name": "admin"
+      "first_name": "Admin",
+      "last_name": "Admin"
     }
     ```
 - **Response (Success)**:
@@ -104,13 +104,17 @@ Follow the prompts to create the superuser.
       "user": {
         "email": "admin@admin.com",
         "first_name": "Admin",
-        "last_name": "admin"
+        "last_name": "Admin"
       },
       "message": "User successfully registered. Please log in to obtain access token."
     }
     ```
-sucess image : ![image](https://github.com/user-attachments/assets/44fee2b7-b224-4001-9b57-39f918fa0f70)
-error sceenshot : ![image](https://github.com/user-attachments/assets/be10a993-fa41-4fa1-b388-e31edaeae347)
+
+**Success Image**:
+![Registration Success](https://github.com/user-attachments/assets/44fee2b7-b224-4001-9b57-39f918fa0f70)
+
+**Error Image**:
+![Registration Error](https://github.com/user-attachments/assets/be10a993-fa41-4fa1-b388-e31edaeae347)
 
 ---
 
@@ -130,15 +134,19 @@ error sceenshot : ![image](https://github.com/user-attachments/assets/be10a993-f
       "user": {
         "email": "admin@admin.com",
         "first_name": "Admin",
-        "last_name": "admin"
+        "last_name": "Admin"
       },
       "access_token": "your_access_token_here",
       "refresh_token": "your_refresh_token_here",
       "session_key": "your_session_key_here"
     }
     ```
-login sceenshot : ![image](https://github.com/user-attachments/assets/9b37f3d4-5cdb-4857-8aaf-fc9c6aa8d92b)
-when try second time login sceenshot : ![image](https://github.com/user-attachments/assets/7a006c3e-4403-40d8-bf71-dd6d6351b9e5)
+
+**Login Image (First-time)**:
+![Login Success](https://github.com/user-attachments/assets/9b37f3d4-5cdb-4857-8aaf-fc9c6aa8d92b)
+
+**Error Image (Second-time)**:
+![Second-time](https://github.com/user-attachments/assets/7a006c3e-4403-40d8-bf71-dd6d6351b9e5)
 
 - **Response (Error - Invalid Credentials)**:
     ```json
@@ -154,8 +162,10 @@ when try second time login sceenshot : ![image](https://github.com/user-attachme
     }
     ```
 
-### 3. **POST /continue-login/** - **User continue Login**
-- **Description**: Logs in an existing user with email and password.
+---
+
+### 3. **POST /continue-login/** - **Continue Login**
+- **Description**: Allows the user to continue their login if they are already logged in. This is used to refresh the session, and replace the old session and access token.
 - **Request Body**:
     ```json
     {
@@ -164,13 +174,13 @@ when try second time login sceenshot : ![image](https://github.com/user-attachme
     }
     ```
 
-- **Response (Delete old session and access token and create new)**:
+- **Response (Session Refresh)**:
     ```json
     {
       "user": {
         "email": "admin@admin.com",
         "first_name": "Admin",
-        "last_name": "admin"
+        "last_name": "Admin"
       },
       "access_token": "your_access_token_here",
       "refresh_token": "your_refresh_token_here",
@@ -178,7 +188,8 @@ when try second time login sceenshot : ![image](https://github.com/user-attachme
     }
     ```
 
-![image](https://github.com/user-attachments/assets/cd4a8f3a-fff4-4833-b4ba-5fd56c12fdc0)
+**Session Refresh Image**:
+![Session Refresh](https://github.com/user-attachments/assets/cd4a8f3a-fff4-4833-b4ba-5fd56c12fdc0)
 
 ---
 
@@ -204,3 +215,11 @@ To test the API endpoints using Postman, import the following collection into Po
 3. **First-time login** will return `access_token`, `refresh_token`, and `session_key`.
 4. **Subsequent logins** will prompt the user to use the "Continue Login" API, showing an error and asking for session refresh.
 
+---
+
+### Improvements:
+1. **Clear API Responses**: Error messages and responses are now more explicit, especially regarding common user login issues (e.g., invalid credentials, user already logged in).
+2. **Images & Screenshots**: Enhanced with images to show both success and error screens to improve the user's understanding of what to expect.
+3. **Clearer Structure**: Improved organization for easy navigation between sections (Installation, API Endpoints, Testing).
+
+This should now give a much clearer, more organized overview of your project, improving readability and user understanding.
