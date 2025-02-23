@@ -1,0 +1,318 @@
+{
+	"info": {
+		"_postman_id": "f583d8f9-58f4-4023-ba27-92720f06b7bf",
+		"name": "SSO Login Django",
+		"description": "StartFragment\n\nHere is an example of how to create a **Postman Collection README** for your API, assuming the username is `admin@admin.com` and password is `admin`.\n\n---\n\n# **Postman Collection: Django JWT Authentication with Session Management API**\n\nThis Postman collection is designed to test a Django application with JWT-based authentication, including session management. It contains requests for both **registration** and **login** functionalities.\n\n---\n\n## **Endpoints Overview**\n\n### 1\\. **POST /register/** - **User Registration**\n\n- **Description**: Register a new user.\n    \n- **Request Body**:\n    \n    - **Content-Type**: `application/json`\n        \n    - { \"email\": \"admin@admin.com\", \"password\": \"admin\", \"first_name\": \"Admin\", \"last_name\": \"User\"}\n        \n- **Response (Success)**:\n    \n    - **Status**: 201 Created\n        \n    - { \"user\": { \"email\": \"admin@admin.com\", \"first_name\": \"Admin\", \"last_name\": \"User\" }, \"message\": \"User successfully registered. Please log in to obtain access token.\"}\n        \n- **Response (Error)**:\n    \n    - **Status**: 400 Bad Request\n        \n    - { \"email\": \\[\"This field is required.\"\\], \"password\": \\[\"This field is required.\"\\]}\n        \n\n---\n\n### 2\\. **POST /login/** - **User Login**\n\n- **Description**: Login with existing credentials and obtain access and refresh tokens.\n    \n- **Request Body**:\n    \n    - **Content-Type**: `application/json`\n        \n    - { \"email\": \"admin@admin.com\", \"password\": \"admin\"}\n        \n- **Response (Success - First Login)**:\n    \n    - **Status**: 200 OK\n        \n    - { \"user\": { \"email\": \"admin@admin.com\", \"first_name\": \"Admin\", \"last_name\": \"User\" }, \"access_token\": \"your_access_token_here\", \"refresh_token\": \"your_refresh_token_here\", \"session_key\": \"session_key_here\"}\n        \n- **Response (Error - Invalid Credentials)**:\n    \n    - **Status**: 401 Unauthorized\n        \n    - { \"detail\": \"Invalid credentials\"}\n        \n- **Response (Error - User Already Logged In)**:\n    \n    - **Status**: 400 Bad Request\n        \n    - { \"detail\": \"User has already logged in. Please use 'Continue Login' API to refresh session.\"}\n        \n\n---\n\n## **Postman Collection Setup**\n\nTo import this collection into Postman:\n\n1. **Open Postman** and click on the **Import** button in the top-left corner.\n    \n2. Choose **Raw Text**.\n    \n3. Copy the collection JSON provided below into the text box and click **Continue**.\n    \n\n---\n\n## **Postman Collection JSON**\n\n``` json\n{\n  \"info\": {\n    \"_postman_id\": \"xyz-collection-id\",\n    \"name\": \"Django JWT Authentication with Session Management\",\n    \"description\": \"Collection for testing JWT authentication and session management with Django.\"\n  },\n  \"item\": [\n    {\n      \"name\": \"User Registration\",\n      \"request\": {\n        \"method\": \"POST\",\n        \"header\": [\n          {\n            \"key\": \"Content-Type\",\n            \"value\": \"application/json\",\n            \"description\": \"Set Content-Type to application/json\"\n          }\n        ],\n        \"body\": {\n          \"mode\": \"raw\",\n          \"raw\": \"{\\n  \\\"email\\\": \\\"admin@admin.com\\\",\\n  \\\"password\\\": \\\"admin\\\",\\n  \\\"first_name\\\": \\\"Admin\\\",\\n  \\\"last_name\\\": \\\"User\\\"\\n}\"\n        },\n        \"url\": {\n          \"raw\": \"http://localhost:8000/register/\",\n          \"host\": [\n            \"http://localhost:8000\"\n          ],\n          \"path\": [\n            \"register\"\n          ]\n        }\n      },\n      \"response\": []\n    },\n    {\n      \"name\": \"User Login\",\n      \"request\": {\n        \"method\": \"POST\",\n        \"header\": [\n          {\n            \"key\": \"Content-Type\",\n            \"value\": \"application/json\",\n            \"description\": \"Set Content-Type to application/json\"\n          }\n        ],\n        \"body\": {\n          \"mode\": \"raw\",\n          \"raw\": \"{\\n  \\\"email\\\": \\\"admin@admin.com\\\",\\n  \\\"password\\\": \\\"admin\\\"\\n}\"\n        },\n        \"url\": {\n          \"raw\": \"http://localhost:8000/login/\",\n          \"host\": [\n            \"http://localhost:8000\"\n          ],\n          \"path\": [\n            \"login\"\n          ]\n        }\n      },\n      \"response\": []\n    }\n  ]\n}\n\n ```\n\n---\n\n## **Instructions to Use**\n\n1. **Setup**: Ensure the Django project with the JWT authentication is running locally (or on the specified URL).\n    \n    - Make sure the server is running on `http://localhost:8000/` or modify the collection to match your server's URL.\n        \n    - Ensure JWT authentication is properly set up in Django and the `ValidSessionToken` model is correctly created in the database.\n        \n2. **Registration**:\n    \n    - **Method**: `POST`\n        \n    - **Endpoint**: `/register/`\n        \n    - { \"email\": \"admin@admin.com\", \"password\": \"admin\", \"first_name\": \"Admin\", \"last_name\": \"User\"}\n        \n    - **Response**: Upon success, the server will return a message confirming that the user is registered and instructing them to log in to obtain tokens.\n        \n3. **Login**:\n    \n    - **Method**: `POST`\n        \n    - **Endpoint**: `/login/`\n        \n    - { \"email\": \"admin@admin.com\", \"password\": \"admin\"}\n        \n    - **First-time Login**:\n        \n        - You will receive `access_token`, `refresh_token`, and `session_key` if the login is successful.\n            \n        - { \"user\": { \"email\": \"admin@admin.com\", \"first_name\": \"Admin\", \"last_name\": \"User\" }, \"access_token\": \"your_access_token_here\", \"refresh_token\": \"your_refresh_token_here\", \"session_key\": \"session_key_here\"}\n            \n    - **Subsequent Login**:\n        \n        - { \"detail\": \"User has already logged in. Please use 'Continue Login' API to refresh session.\"}\n            \n\n---\n\n## **Important Notes**\n\n- Make sure the Django application is correctly configured with JWT authentication, including `rest_framework_simplejwt` for token handling.\n    \n- Ensure that the session management works with `django.contrib.sessions` and the `ValidSessionToken` model is set up to handle sessions and tokens correctly.\n    \n- Change the server URL in the collection if you're not running the server locally on `localhost:8000`.\n    \n\n---",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18993312"
+	},
+	"item": [
+		{
+			"name": "Registration",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"user@examplfslijefle.com\",\r\n  \"password\": \"password123\",\r\n  \"first_name\": \"John\",\r\n  \"last_name\": \"Doe\",\r\n  \"user_type\":\"admin\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/register/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"register",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "registration example",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"user@example.com\",\r\n  \"first_name\": \"John\",\r\n  \"last_name\": \"Doe\",\r\n  \"password\": \"password123\",\r\n  \"user_type\": \"customer\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/register/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register",
+								""
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 23 Feb 2025 09:33:21 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.12.9"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept, Cookie"
+						},
+						{
+							"key": "Allow",
+							"value": "POST, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "136"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"User created successfully\",\n    \"user\": {\n        \"email\": \"user@example.com\",\n        \"first_name\": \"John\",\n        \"last_name\": \"Doe\",\n        \"user_type\": \"customer\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"user@user.com\",\r\n    \"password\": \"password123\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/login/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"login",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "login example",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user@examplfslijefle.com\",\r\n    \"password\": \"password123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/login/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login",
+								""
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 23 Feb 2025 11:36:28 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.12.9"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept"
+						},
+						{
+							"key": "Allow",
+							"value": "POST, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "92"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"detail\": \"User has already logged in. Please use 'Continue Login' API to refresh session.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "ContinueLoginAPIView",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"user@examplfslijefle.com\",\r\n    \"password\": \"password123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/continue-login/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"continue-login",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "continue login",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"user@examplfslijefle.com\",\r\n    \"password\": \"password123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/continue-login/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"continue-login",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sun, 23 Feb 2025 11:37:44 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "WSGIServer/0.2 CPython/3.12.9"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Vary",
+							"value": "Accept, Cookie"
+						},
+						{
+							"key": "Allow",
+							"value": "POST, OPTIONS"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Content-Length",
+							"value": "626"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Set-Cookie",
+							"value": "sessionid=udg31aumygvzgx6oy55hqh6dxs1sguav; expires=Sun, 09 Mar 2025 11:37:44 GMT; HttpOnly; Max-Age=1209600; Path=/; SameSite=Lax"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"user\": {\n        \"email\": \"user@examplfslijefle.com\",\n        \"first_name\": \"John\",\n        \"last_name\": \"Doe\"\n    },\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQwMzEwOTY0LCJpYXQiOjE3NDAzMTA2NjQsImp0aSI6IjQ0OGEwYTY0MGE3NjQ1YjFiY2QxOWZiZjY3OTRlYjE0IiwidXNlcl9pZCI6OH0.WcjVSij77e6bHb26WOD01tEJ_IKY8G342rM3GMTGeJI\",\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTc0MDM5NzA2NCwiaWF0IjoxNzQwMzEwNjY0LCJqdGkiOiI5YzVmNzYwYTMwNzE0YzAyYWE4YjhmYmQ3NWI2Nzc0ZiIsInVzZXJfaWQiOjh9.QIHXwDL2yhbXfwTaMMMspntZOcHqSPjjGKM00H5Ik6Y\",\n    \"session_key\": \"udg31aumygvzgx6oy55hqh6dxs1sguav\"\n}"
+				}
+			]
+		}
+	]
+}
