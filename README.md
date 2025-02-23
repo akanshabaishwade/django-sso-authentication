@@ -109,6 +109,8 @@ Follow the prompts to create the superuser.
       "message": "User successfully registered. Please log in to obtain access token."
     }
     ```
+sucess image : ![image](https://github.com/user-attachments/assets/44fee2b7-b224-4001-9b57-39f918fa0f70)
+error sceenshot : ![image](https://github.com/user-attachments/assets/be10a993-fa41-4fa1-b388-e31edaeae347)
 
 ---
 
@@ -135,6 +137,8 @@ Follow the prompts to create the superuser.
       "session_key": "your_session_key_here"
     }
     ```
+login sceenshot : ![image](https://github.com/user-attachments/assets/9b37f3d4-5cdb-4857-8aaf-fc9c6aa8d92b)
+when try second time login sceenshot : ![image](https://github.com/user-attachments/assets/7a006c3e-4403-40d8-bf71-dd6d6351b9e5)
 
 - **Response (Error - Invalid Credentials)**:
     ```json
@@ -150,6 +154,32 @@ Follow the prompts to create the superuser.
     }
     ```
 
+### 3. **POST /continue-login/** - **User continue Login**
+- **Description**: Logs in an existing user with email and password.
+- **Request Body**:
+    ```json
+    {
+      "email": "admin@admin.com",
+      "password": "admin"
+    }
+    ```
+
+- **Response (Delete old session and access token and create new)**:
+    ```json
+    {
+      "user": {
+        "email": "admin@admin.com",
+        "first_name": "Admin",
+        "last_name": "admin"
+      },
+      "access_token": "your_access_token_here",
+      "refresh_token": "your_refresh_token_here",
+      "session_key": "your_session_key_here"
+    }
+    ```
+
+![image](https://github.com/user-attachments/assets/cd4a8f3a-fff4-4833-b4ba-5fd56c12fdc0)
+
 ---
 
 ## Postman Collection
@@ -159,70 +189,6 @@ To test the API endpoints using Postman, import the following collection into Po
 1. **Open Postman** and click on the **Import** button in the top-left corner.
 2. Choose **Raw Text**.
 3. Copy the following JSON and paste it into the text box, then click **Continue**.
-
-```json
-{
-  "info": {
-    "_postman_id": "xyz-collection-id",
-    "name": "Django JWT Authentication with Session Management",
-    "description": "Collection for testing JWT authentication and session management with Django."
-  },
-  "item": [
-    {
-      "name": "User Registration",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"email\": \"admin@admin.com\",\n  \"password\": \"admin\",\n  \"first_name\": \"Admin\",\n  \"last_name\": \"User\"\n}"
-        },
-        "url": {
-          "raw": "http://localhost:8000/register/",
-          "host": [
-            "http://localhost:8000"
-          ],
-          "path": [
-            "register"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "User Login",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"email\": \"admin@admin.com\",\n  \"password\": \"admin\"\n}"
-        },
-        "url": {
-          "raw": "http://localhost:8000/login/",
-          "host": [
-            "http://localhost:8000"
-          ],
-          "path": [
-            "login"
-          ]
-        }
-      },
-      "response": []
-    }
-  ]
-}
-```
 
 ---
 
